@@ -107,6 +107,7 @@ async def send_heart_member(interaction: discord.Interaction, 名字: str):
     app_commands.Choice(name="燭火", value="燭火"),
     app_commands.Choice(name="任務", value="任務"),
     app_commands.Choice(name="獻祭", value="獻祭"),
+    app_commands.Choice(name="金人", value="金人"),
     app_commands.Choice(name="開圖", value="開圖"),
     app_commands.Choice(name="票卷", value="票卷"),
     app_commands.Choice(name="代登", value="代登"),
