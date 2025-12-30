@@ -80,14 +80,14 @@ async def update_sheet_record(interaction: discord.Interaction, name: str, item_
         await interaction.followup.send(f"❌ 錯誤：{e}")
 
 # --- 指令區塊 (代、帶人、陪玩、三戀) ---
-# --- 5. 送心員指令 (新增指令) ---
+# --- 送心員指令 (新增指令) ---
 # 對應你圖片中的 B 欄「送心員」
 @bot.tree.command(name="送心員", description="登記送心員記錄 (B欄)")
 async def send_heart_member(interaction: discord.Interaction, 名字: str):
     # 這裡的 item_label 必須跟試算表 B2 儲存格的文字完全一樣
     # 根據圖片，B2 應該是「送心員」
     await update_sheet_record(interaction, 名字, "送心員")
-# --- 1. 代他人指令 (更新版：新增代登選項) ---
+# --- 代他人指令 (更新版：新增代登選項) ---
 @bot.tree.command(name="代", description="登記代他人相關項目 (藍色區塊)")
 @app_commands.choices(項目=[
     app_commands.Choice(name="燭火", value="燭火"),
@@ -130,6 +130,37 @@ async def playing_with(interaction: discord.Interaction, 名字: str, 項目: st
 ])
 async def triple_love(interaction: discord.Interaction, 名字: str, 項目: str):
     await update_sheet_record(interaction, 名字, 項目)
+# --- 6. 刪除記錄指令 ---
+@bot.tree.command(name="刪除", description="清除特定玩家在某個項目的 1 (例如：名字, 帶火)")
+@app_commands.describe(名字="要刪除記錄的人名", 項目名稱="請輸入要清除的完整項目名 (例如：燭火、帶火、陪玩)")
+async def delete_record(interaction: discord.Interaction, 名字: str, 項目名稱: str):
+    await interaction.response.defer()
+    try:
+        # 1. 取得標題列與名字列
+        header_row = sheet.row_values(2)
+        names_col = sheet.col_values(1)
+
+        # 2. 檢查名字是否存在
+        if 名字 not in names_col:
+            await interaction.followup.send(f"❌ 找不到玩家：`{名字}`，請檢查名字是否正確。")
+            return
+
+        # 3. 檢查項目是否存在
+        if 項目名稱 not in header_row:
+            await interaction.followup.send(f"❌ 試算表標題中找不到項目：`{項目名稱}`")
+            return
+
+        # 4. 定位座標
+        row_idx = names_col.index(名字) + 1
+        col_idx = header_row.index(項目名稱) + 1
+
+        # 5. 清除該格內容 (設為空字串)
+        sheet.update_cell(row_idx, col_idx, "")
+        
+        await interaction.followup.send(f"✅ 已成功清除記錄！\n👤 名字：`{名字}`\n🗑️ 項目：`{項目名稱}`")
+        
+    except Exception as e:
+        await interaction.followup.send(f"❌ 刪除失敗，錯誤原因：{e}")
 
 # 執行
 token = os.getenv("DISCORD_TOKEN")
