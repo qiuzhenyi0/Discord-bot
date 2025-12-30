@@ -80,6 +80,14 @@ async def update_sheet_record(interaction: discord.Interaction, name: str, item_
         await interaction.followup.send(f"❌ 錯誤：{e}")
 
 # --- 指令區塊 (代、帶人、陪玩、三戀) ---
+# --- 5. 送心員指令 (新增指令) ---
+# 對應你圖片中的 B 欄「送心員」
+@bot.tree.command(name="送心員", description="登記送心員記錄 (B欄)")
+async def send_heart_member(interaction: discord.Interaction, 名字: str):
+    # 這裡的 item_label 必須跟試算表 B2 儲存格的文字完全一樣
+    # 根據圖片，B2 應該是「送心員」
+    await update_sheet_record(interaction, 名字, "送心員")
+# --- 1. 代他人指令 (更新版：新增代登選項) ---
 @bot.tree.command(name="代", description="登記代他人相關項目 (藍色區塊)")
 @app_commands.choices(項目=[
     app_commands.Choice(name="燭火", value="燭火"),
@@ -87,7 +95,7 @@ async def update_sheet_record(interaction: discord.Interaction, name: str, item_
     app_commands.Choice(name="獻祭", value="獻祭"),
     app_commands.Choice(name="開圖", value="開圖"),
     app_commands.Choice(name="票卷", value="票卷"),
-    app_commands.Choice(name="代登", value="代登"),
+    app_commands.Choice(name="代登", value="代登"),  # 新增選項
 ])
 async def dai_others(interaction: discord.Interaction, 名字: str, 項目: str):
     await update_sheet_record(interaction, 名字, 項目)
