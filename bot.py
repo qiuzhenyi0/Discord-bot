@@ -101,7 +101,7 @@ async def update_sheet_record(interaction: discord.Interaction, name: str, item_
 async def send_heart_member(interaction: discord.Interaction, 名字: str):
     await update_sheet_record(interaction, 名字, "送心員")
 
-@bot.tree.command(name="代", description="登記代他人項目")
+@bot.tree.command(name="代", description="登記代項目")
 @is_staff_or_admin()
 @app_commands.choices(項目=[
     app_commands.Choice(name="燭火", value="燭火"),
@@ -158,7 +158,7 @@ import os
 import json
 
 # --- 設定區 ---
-STAFF_ROLE_ID = 1439344370456199409  # 你的員工身分組 ID
+STAFF_ROLE_ID = 1439344370456199409  # 員工身分組 ID
 SCOPE = [
     "https://spreadsheets.google.com/feeds",
     "https://www.googleapis.com/auth/drive"
@@ -258,6 +258,7 @@ async def send_heart_member(interaction: discord.Interaction, 名字: str):
     app_commands.Choice(name="燭火", value="燭火"),
     app_commands.Choice(name="任務", value="任務"),
     app_commands.Choice(name="獻祭", value="獻祭"),
+    app_commands.Choice(name="金人", value="金人"),
     app_commands.Choice(name="開圖", value="開圖"),
     app_commands.Choice(name="票卷", value="票卷"),
     app_commands.Choice(name="代登", value="代登"),
