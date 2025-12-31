@@ -129,6 +129,11 @@ async def dai_others(interaction: discord.Interaction, 名字: str, 項目: str)
     app_commands.Choice(name="帶開", value="帶開"),
     app_commands.Choice(name="帶金", value="帶金"),
     app_commands.Choice(name="帶票", value="帶票"),
+    app_commands.Choice(name="帶試煉", value="帶試煉"),
+    app_commands.Choice(name="帶先", value="帶先"),
+    app_commands.Choice(name="帶掛", value="帶掛"),
+    app_commands.Choice(name="帶石", value="帶石"),
+    app_commands.Choice(name="帶季節節點", value="帶季節節點"),
 ])
 async def carry_others(interaction: discord.Interaction, 名字: str, 項目: str):
     await update_sheet_record(interaction, 名字, 項目)
